@@ -1,0 +1,74 @@
+Version 0.0.13:
+	* Suppress "deprecated" compile warnings when built without
+	  TLV support (patch by J. Scott Merritt)
+
+Version 0.0.12:
+	* Fix a typo in snd_pcm_drain().  It called DROP instead of
+	  DRAIN.
+	* Fix for capture -- fix the initialization of pcm->stream
+	  field in snd_pcm_open()
+
+Version 0.0.11:
+	* Fix a typo in fnctl() argument in snd_pcm_open (for blocking
+	  mode)
+	* Fix the parse of secondary and third arguments of the device
+	  name (i.e. PCM device and subdevice numbers)
+
+Version 0.0.10:
+	* Due to popular demands, make salsa-lib compile with C++ now
+	  People tend to like what I don't :)
+	* Rewrite memory allocation, free, copy, etc with helper macros
+	* Fix missing function declarations for snd_ctl_elem_add*()
+	  and snd_mixer_selem_get_enum_item_name()
+	* Async is disabled as default (as written in README)
+	  Fix build without async
+	
+Version 0.0.9:
+	* Add --with-alsa-devdir configure option to specify the
+	  non-standard device path (patch by Clemens Ladisch)
+	* Fix some description in README
+
+Version 0.0.8:
+	* Add --disable-deprecated configure option to turn off the
+	  "deprecated" attribute for non-working functions.
+	* Move snd_config_update_free_global() to global.h to fix
+	  compilation of aplay without conf.h.
+	* Add missing declaration of snd_pcm_format_value().
+	* Output hw_params and sw_params in snd_pcm_dump().
+	* Fix the array size of strings for PCM mask parameters.
+
+Version 0.0.7a:
+	* Fix asoundlib.h without PCM support.
+	* Fix README about async.
+	* Show the determined configurations at the end of configure
+	  script.
+
+Version 0.0.7:
+	* Add optional async handler support.  Disabled as default.
+	* Allow to disable PCM component via configure option.
+	
+Version 0.0.6:
+	* Fix channel_info parameter called from _snd_pcm_mmap().
+	* More notes in README about known problems.
+	
+Version 0.0.5:
+	* Fix the bug that avail_min is cleared, which screwed up poll
+	  return condition
+
+Version 0.0.4:
+	* Fix the missing return from _snd_mixer_selem_get_volume_range()
+	* Fix the check of stop_threshold in snd_pcm_avail_update().
+	* Removed unused fields (of snd_pcm_sw_params_t) from snd_pcm_t
+	  structure
+
+Version 0.0.3:
+	* Fix the stupid bug of wrong sizeof() usage in *_malloc()
+	  functions.
+
+Version 0.0.2:
+	* Fix the libtool option to use -version-info instead of
+	  -version-number
+	* Add a brief description about cross-compiling
+	
+Version 0.0.1:
+	* Initial release

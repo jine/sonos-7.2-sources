@@ -1,0 +1,6 @@
+.*
+!.p4ignore
+System.map
+mips.autoconf.h
+vmlinux
+

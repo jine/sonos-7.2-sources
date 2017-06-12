@@ -1,0 +1,8 @@
+.*
+!.p4ignore
+MCmenu*
+sh4.autoconf.h
+ppc.autoconf.h
+System.map
+vmlinux
+

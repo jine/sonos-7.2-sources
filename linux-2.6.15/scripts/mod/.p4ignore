@@ -1,0 +1,8 @@
+.*.cmd
+*.mod.c
+.tmp_versions
+*.ko
+elfconfig.h
+mk_elfconfig
+modpost
+

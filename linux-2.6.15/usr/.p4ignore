@@ -1,0 +1,5 @@
+.*.cmd
+initramfs_list
+initramfs_data.cpio*
+gen_init_cpio
+

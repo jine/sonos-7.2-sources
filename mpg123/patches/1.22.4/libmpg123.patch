@@ -1,0 +1,143 @@
+--- a/src/libmpg123/libmpg123.c	2015-08-11 22:33:47.000000000 -0700
++++ b/src/libmpg123/libmpg123.c	2016-01-14 09:42:16.808225865 -0800
+@@ -75,6 +75,7 @@
+ 	return fr;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_decoder(mpg123_handle *mh, const char* decoder)
+ {
+ 	enum optdec dt = dectype(decoder);
+@@ -451,6 +452,7 @@
+ 	}
+ 	return open_stream_handle(mh, iohandle);
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ int attribute_align_arg mpg123_open_feed(mpg123_handle *mh)
+ {
+@@ -460,6 +462,7 @@
+ 	return open_feed(mh);
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_replace_reader( mpg123_handle *mh,
+                            ssize_t (*r_read) (int, void *, size_t),
+                            off_t   (*r_lseek)(int, off_t, int) )
+@@ -485,6 +488,7 @@
+ 	mh->rdat.cleanup_handle = cleanup;
+ 	return MPG123_OK;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ /* Update decoding engine for
+    a) a new choice of decoder
+@@ -561,6 +565,7 @@
+ 	return 0;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ size_t attribute_align_arg mpg123_safe_buffer(void)
+ {
+ 	/* real is the largest possible output (it's 32bit float, 32bit int or 64bit double). */
+@@ -573,6 +578,7 @@
+ 	if(mh != NULL && mh->outblock > 0) return mh->outblock;
+ 	else return mpg123_safe_buffer();
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ /* Read in the next frame we actually want for decoding.
+    This includes skipping/ignoring frames, in additon to skipping junk in the parser. */
+@@ -732,6 +738,7 @@
+ 	postprocess_buffer(fr);
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ /*
+ 	Decode the current frame into the frame structure's buffer, accessible at the location stored in <audio>, with <bytes> bytes available.
+ 	<num> will contain the last decoded frame number. This function should be called after mpg123_framebyframe_next positioned the stream at a
+@@ -856,6 +863,7 @@
+ {
+ 	return mpg123_decode(mh, NULL, 0, out, size, done);
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ int attribute_align_arg mpg123_feed(mpg123_handle *mh, const unsigned char *in, size_t size)
+ {
+@@ -970,6 +978,7 @@
+ #endif
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ long attribute_align_arg mpg123_clip(mpg123_handle *mh)
+ {
+ 	long ret = 0;
+@@ -981,6 +990,7 @@
+ 	}
+ 	return ret;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ /* Simples: Track needs initializtion if no initial frame has been read yet. */
+ #define track_need_init(mh) ((mh)->num < 0)
+@@ -996,6 +1006,7 @@
+ 	return 0;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_info(mpg123_handle *mh, struct mpg123_frameinfo *mi)
+ {
+ 	int b;
+@@ -1033,6 +1044,7 @@
+ 	mi->vbr = mh->vbr;
+ 	return MPG123_OK;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ int attribute_align_arg mpg123_getformat(mpg123_handle *mh, long *rate, int *channels, int *encoding)
+ {
+@@ -1049,6 +1061,7 @@
+ 	return MPG123_OK;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ off_t attribute_align_arg mpg123_timeframe(mpg123_handle *mh, double seconds)
+ {
+ 	off_t b;
+@@ -1462,6 +1475,7 @@
+ 		default: return mpg123_text_unknown;
+ 	}
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ #ifndef NO_STRING
+ int mpg123_store_utf8(mpg123_string *sb, enum mpg123_text_encoding enc, const unsigned char *source, size_t source_size)
+@@ -1513,6 +1527,7 @@
+ }
+ #endif
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_index(mpg123_handle *mh, off_t **offsets, off_t *step, size_t *fill)
+ {
+ 	if(mh == NULL) return MPG123_BAD_HANDLE;
+@@ -1553,6 +1568,7 @@
+ 	return MPG123_ERR;
+ #endif
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ int attribute_align_arg mpg123_close(mpg123_handle *mh)
+ {
+@@ -1582,6 +1598,7 @@
+ 	}
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ static const char *mpg123_error[] =
+ {
+ 	"No error... (code 0)",
+@@ -1659,3 +1676,4 @@
+ {
+ 	return mpg123_plain_strerror(mpg123_errcode(mh));
+ }
++#endif // SONOS_MPG123_OPTIMIZED

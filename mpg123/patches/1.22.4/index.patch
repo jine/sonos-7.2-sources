@@ -1,0 +1,15 @@
+--- a/src/libmpg123/index.c	2015-08-11 22:33:47.000000000 -0700
++++ b/src/libmpg123/index.c	2015-11-28 09:23:47.961022874 -0800
+@@ -34,6 +34,7 @@
+ 	fi->next = fi_next(fi);
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ void fi_init(struct frame_index *fi)
+ {
+ 	fi->data = NULL;
+@@ -132,3 +133,4 @@
+ 	fi->step = 1;
+ 	fi->next = fi_next(fi);
+ }
++#endif // SONOS_MPG123_OPTIMIZED

@@ -1,0 +1,8 @@
+.*.cmd
+*.mod.c
+.tmp_versions
+*.ko
+fixdep
+docproc
+split-include
+

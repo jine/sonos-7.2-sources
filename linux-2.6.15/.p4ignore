@@ -1,0 +1,11 @@
+.*.cmd
+*.mod.c
+.tmp_versions
+*.ko
+.tmp_*
+.config*
+.version
+Module.symvers
+System.map
+vmlinux
+

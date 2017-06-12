@@ -1,0 +1,66 @@
+--- a/src/libmpg123/format.c	2015-08-11 22:33:47.000000000 -0700
++++ b/src/libmpg123/format.c	2015-11-28 09:16:10.985022652 -0800
+@@ -110,6 +110,7 @@
+ 	return FALSE;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ void attribute_align_arg mpg123_rates(const long **list, size_t *number)
+ {
+ 	if(list   != NULL) *list   = my_rates;
+@@ -122,6 +123,7 @@
+ 	if(list   != NULL) *list   = good_encodings;
+ 	if(number != NULL) *number = sizeof(good_encodings)/sizeof(int);
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ int attribute_align_arg mpg123_encsize(int encoding)
+ {
+@@ -355,6 +357,7 @@
+ 	}
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_format_none(mpg123_handle *mh)
+ {
+ 	int r;
+@@ -386,6 +389,7 @@
+ 
+ 	return r;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ int attribute_align_arg mpg123_fmt_all(mpg123_pars *mp)
+ {
+@@ -402,6 +406,7 @@
+ 	return MPG123_OK;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_format(mpg123_handle *mh, long rate, int channels, int encodings)
+ {
+ 	int r;
+@@ -456,6 +461,7 @@
+ 	if(mp->audio_caps[1][ratei][enci]) ch |= MPG123_STEREO;
+ 	return ch;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ /* Call this one to ensure that any valid format will be something different than this. */
+ void invalidate_format(struct audioformat *af)
+@@ -471,6 +477,7 @@
+ 	return s * fr->af.dec_encsize * fr->af.channels;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ /* Samples/bytes for output buffer after post-processing. */
+ /* take into account: channels, bytes per sample -- NOT resampling!*/
+ off_t samples_to_bytes(mpg123_handle *fr , off_t s)
+@@ -482,6 +489,7 @@
+ {
+ 	return b / fr->af.encsize / fr->af.channels;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ /* Number of bytes needed for decoding _and_ post-processing. */
+ off_t outblock_bytes(mpg123_handle *fr, off_t s)

@@ -1,0 +1,450 @@
+2002-11-11  Jeremy Siegel  <jsiegel@mvista.com>
+
+	* include/asm-sh/processor.h arch/sh/kernel/{process,ptrace.c}:
+	Defer actual setting of UBC registers on SINGLESTEP requests to
+	actual scheduling of the target process.
+
+	* include/asm-sh/kgdb.h arch/sh/kernel/kgdb_stub.c:
+	Use separate cache flush for kgdb to catch low kernel breakpoints.
+	
+2002-10-24  Paul Mundt  <lethal@linux-sh.org>
+
+	* arch/sh/kernel/Makefile: Kill off the SE7751 LED code, use
+	SE generic code instead.
+	* arch/sh/kernel/led_se.c: Bring in SE7751 definitions if
+	CONFIG_SH_7751_SOLUTION_ENGINE is set.
+	* arch/sh/kernel/mach_7751se.c: Change heartbeat_7751se references
+	to heartbeat_se.
+	* arch/sh/kernel/led_7751se.c: Removed.
+
+	* arch/sh/config.in: Added CONFIG_CMDLINE_BOOL/CONFIG_CMDLINE.
+	Can now manually hard-code an intial kernel command line.
+
+	* arch/sh/kernel/setup.c (setup_arch): Append CONFIG_CMDLINE
+	to the kernel command line when CONFIG_CMDLINE_BOOL is set.
+	
+	Backported from 2.5.44.
+
+2002-10-24  M. R. Brown  <mrbrown@linux-sh.org>
+
+	* arch/sh/kernel/pcibios.c (pcibios_enable_device): Change function
+	declaration to match include/linux/pci.h.
+
+	* Documentation/Configure.help, drivers/char/shwdt.c,
+	drivers/char/tty_io.c, drivers/net/Config.in: Fix merge breakage.
+
+	Linux 2.4.20-pre11
+
+	* AGAINST-2.4.20-pre11: New file.
+	* AGAINST-2.4.19: Removed.
+
+	* Documentation/Configure.help, Makefile, arch/sh/config.in,
+	arch/sh/kernel/pcibios.c, arch/sh/mm/fault.c, drivers/block/rd.c,
+	drivers/Makefile, drivers/char/joystick/Config.in,
+	drivers/char/joystick/Makefile, drivers/char/Makefile,
+	drivers/char/shwdt.c, drivers/char/tty_io.c,
+	drivers/mtd/maps/Config.in, drivers/net/8139too.c,
+	drivers/net/Config.in, drivers/pci/pci.ids, fs/nfs/inode.c,
+	include/asm-sh/pgtable-2level.h, include/asm-sh/semaphore.h,
+	include/asm-sh/socket.h, include/asm-sh/termios.h,
+	include/asm-sh/timex.h, include/linux/highmem.h,
+	include/linux/input.h, init/do_mounts.c, mm/memory.c: Merge changes
+	from Linux 2.4.20-pre11.
+
+2002-10-22  M. R. Brown  <mrbrown@linux-sh.org>
+
+	* init/do_mounts.c: Add "gdrom" to the dev_name_struct struct.
+
+	* Documentation/Configure.help, drivers/char/Makefile,
+	drivers/char/shwdt.c, drivers/char/sysrq.c, drivers/mtd/mtdpart.c,
+	drivers/net/Config.in, fs/nfs/inode.c: Fix merge breakage.
+
+	Linux 2.4.19
+
+	* AGAINST-2.4.19: New file.
+	* AGAINST-2.4.18: Removed.
+
+	* init/do_mounts.c: Imported from 2.4.19 in preparation of local
+	changes.
+
+	* Documentation/Configure.help, Documentation/cachetlb.txt, Makefile,
+	arch/sh/kernel/entry.S, arch/sh/kernel/setup.c,
+	arch/sh/kernel/signal.c, arch/sh/mm/init.c, drivers/block/rd.c,
+	drivers/Makefile, drivers/char/Makefile, drivers/char/sh-sci.c,
+	drivers/char/shwdt.c, drivers/char/sysrq.c, drivers/char/tty_io.c,
+	drivers/mtd/maps/Config.in, drivers/mtd/mtdpart.c,
+	drivers/net/8139too.c, drivers/net/Config.in, drivers/pci/pci.ids,
+	fs/nfs/inode.c, include/asm-sh/ide.h, include/asm-sh/pgtable.h,
+	include/asm-sh/siginfo.h, include/asm-sh/unistd.h,
+	include/linux/mtd/partitions.h, include/linux/highmem.h,
+	include/linux/input.h, init/main.c, kernel/ptrace.c, mm/memory.c:
+	Merge changes from Linux 2.4.19.
+
+2002-10-13  Jeremy Siegel  <jsiegel@mvista.com>
+	* include/asm-sh/ptrace.h: change FP #defines to match user.h struct
+	* include/asm-sh/kgdb.h: change setjmp_longjmp to kgdb_setjmp/longjmp
+	* arch/sh/kernel/kgdb_jmp.S,kgdb_stub.c: same as above
+	
+2002-09-30  Jeremy Siegel  <jsiegel@mvista.com>
+	
+	* arch/sh/kernel/signal.c: don't change return location of sigreturn 
+	* arch/sh/kernel/entry.S: set r8 and r9 before making syscall, so
+	signal return code doesn't need to change return location, and can
+	do syscall tracing like other syscalls
+
+	* include/asm-sh/ptrace.h: put back dummy field (in place of tra) in
+	pt_regs structure (e.g. for compatibility with gdb)
+	
+2002-09-17  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* drivers/char/sh-sci.c (sci_open): Call sci_request_irq before
+	calling gs_init_port.  Suggested by Yoshinori Sato.
+
+2002-09-03  Jeremy Siegel  <jsiegel@mvista.com>
+	
+	* arch/sh/kernel/signal.c: restore r0 on return from handler
+	
+2002-08-29  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* arch/sh/kernel/signal.c (MOVW): Add parens around (n)-2.
+	(do_sigreturn, do_rt_sigreturn): Add unused attribute.
+	(sys_sigreturn, sys_rt_sigreturn): Fix value (added .long).
+	(do_signal): Bug fix of arguments.
+
+	* arch/sh/kernel/entry.S (signal_return): Follow the change
+	of do_signal.
+
+2002-08-29  NIIBE Yutaka  <gniibe@m17n.org>
+
+	Bug fix.
+	* include/asm-sh/uaccess.h (__get_user_check, __put_user_check): 
+	Return -EFAULT if not __access_ok.
+
+2002-08-28  NIIBE Yutaka  <gniibe@m17n.org>
+
+	Bug fixes of system call restart, fork on traced process.
+	* arch/sh/kernel/signal.c: Change the arguments.
+	(sys_sigsuspend, sys_rt_sigsuspend): Follow the change.
+	(restore_sigcontext): Remove handling of r0.
+	(do_sigreturn): New function (was: sys_sigreturn).
+	(do_rt_sigreturn): New function (was: sys_rt_sigreturn).
+	(sys_sigreturn, sys_rt_sigreturn): Syscall entries.  Calling
+	do_XXX, and go back to ret_from_syscall without setting r0.
+	(handle_signal): Added from_syscall and orig_r0 arguments.
+	Restore regs->regs[0] on ERESTARTSYS/ERESTARTNOINTR (BUG Fix).
+	(do_signal): Rearrange arguments.
+	Restore regs.regs[0] on ERESTARTSYS/ERESTARTNOINTR (BUG Fix).
+
+	* arch/sh/kernel/entry.S (OFF_TRA): Removed.
+	(system_call): Don't set regs->tra (as it's removed).
+	(ret_from_fork): Set return value (r0) as 0, before going to
+	syscall_ret or syscall_ret_trace (BUG Fix).
+	(syscall_ret_trace, syscall_ret): Save original value of r0 into r9.
+	Set r8 as 1 indicating it's from syscall.
+	(ret_from_exception): Set r8 as 0.
+	(signal_return): Follow the change of arguments of do_signal.
+	(restore_all, handle_exception): Remove handling of tra.
+
+	* include/asm-sh/ptrace.h (struct pt_regs): Removed the member tra.
+
+2002-08-28  Matt Boytim <matt@boytim.org>
+
+	* drivers/char/sh-sci.c (sci_receive_chars): Add dummy read
+	when copied==0 to clear interrupt.
+
+2002-08-19  Jeremy Siegel  <jsiegel@mvista.com>
+	
+	* arch/sh/kernel/signal.c: fix generation of rt_sigreturn on signal
+	stack, update regular signal stack similarly for consistency
+	* arch/sh/kernel/rtc.c: expand initial validity check to include
+	bogus BCD values and bogus yr100 values on SH4
+	
+2002-08-15  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* arch/sh/kernel/entry.S (reschedule): Bug fix of gUSA.
+
+2002-08-14  NIIBE Yutaka  <gniibe@m17n.org>
+
+	Bug fix of gUSA.
+	* arch/sh/kernel/signal.c (handle_signal): Handle the case where
+	we are in the kernel space.
+	* arch/sh/kernel/entry.S (reschedule): Likewise.
+
+2002-08-14  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* arch/sh/mm/clear_page.S: Bug fix.  Handle the case where
+	length is less than 32.
+
+2002-08-12  NIIBE Yutaka  <gniibe@m17n.org>
+
+	gUSA ("g" User Space Atomicity) support.
+	* arch/sh/kernel/signal.c (handle_signal): Added gUSA handling.
+	* arch/sh/kernel/entry.S (reschedule): Added gUSA handling.
+
+2002-06-10  SUGIOKA Toshinobu  <sugioka@itonet.co.jp>
+
+	* arch/sh/mm/cache-sh4.c (CACHE_ASSOC): Defined.
+	(flush_cache_4096_all): Moved to clear_page.S.
+	(flush_cache_4096): Rewritten. Use __flush_cache_4096.
+	(flush_dcache_page,__flush_cache_page): Don't protect from interrupt.
+	(flush_cache_all): Rewritten. Use __flush_dcache_all.
+	(flush_cache_range): Follow change of flush_cache_4096_all.
+	* arch/sh/mm/clear_page.S (__flush_cache_4096_all): Removed.
+	(flush_cache_4096_all): New implementation.
+	(__flush_cache_4096): Optimized. Use ASSOC bit.
+	(__flush_dcache_all): New function.
+	(__clear_user): Clean-up local label.
+
+	* copy_page.S (__copy_user): Clean-up local label.
+
+	* arch/sh/kernel/time.c (sh_do_profile): Add profile even if PC is in
+	P2 area.
+
+	* arch/sh/kernel/sh_ksyms.c (__copy_user): Exported.
+
+2002-05-24  Paul Mundt  <lethal@chaoticdreams.org>
+
+	* arch/sh/Config.help, arch/sh/config.in, arch/sh/kernel/Makefile:
+	Add CONFIG_UBC_WAKEUP definitions.
+	* arch/sh/kernel/setup.c (setup_arch): Call ubc_wakeup() if
+	CONFIG_UBC_WAKEUP=y.
+	* arch/sh/kernel/ubc.S: New file.
+
+	* include/asm-sh/ptrace.h: Move UBC definitions out to a UBC
+	specific header.
+	* include/asm-sh/ubc.h: New file.
+
+2002-05-23  Paul Mundt  <lethal@chaoticdreams.org>
+
+	* drivers/char/shwdt.c: Sync up with HEAD. Includes SH-5 support and
+	various other cleanups, including modified timers.
+
+2002-05-10  Jeremy Siegel  <jsiegel@mvista.com>
+	[Changelog entry 8/19/02 -- forgot before.]
+	Add KGDB (gdb stub in kernel).
+	Modified files:
+	* Documentation/Configure.help arch/sh/{Makefile,config.in}
+	* arch/sh/kernel/{Makefile,entry.S,setup.c,setup_se.c,time.c,trap.c}
+	* arch/sh/mm/fault.c drivers/char/sh-sci.[ch]
+	Modified (new to drop-in tree):
+	* drivers/char/sysrq.c drivers/char/tty_io.c
+	New files:
+	* arch/sh/kernel/kgdb_stub.c arch/sh/kernel/kgdb_jmp.S
+	* include/asm-sh/kgdb.h Documentation/sh/kgdb.txt
+	
+2002-05-10  Jeremy Siegel  <jsiegel@mvista.com>
+	[Changelog entry 8/19/02 -- forgot before.]
+	* arch/sh/kernel/time.c: allow free-running TMU1
+	
+2002-04-17  SUGIOKA Toshinobu  <sugioka@itonet.co.jp>
+
+	* arch/sh/mm/copy_page.S (__copy_user): New function.
+	* include/asm-sh/uaccess.h (__copy_user): Remove macro,
+	declared as external function.
+
+2002-04-13  SUGIOKA Toshinobu  <sugioka@itonet.co.jp>
+
+	* arch/sh/mm/clear_page.S (__clear_user): Bug fix.
+
+2002-04-09  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* fs/nfs/inode.c (nfs_find_actor): Don't touch i_mode, but
+	return 0 when i_mode mismatch.
+
+2002-04-03  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* arch/sh/mm/cache-sh4.c (flush_cache_4096_all): New function.
+	(flush_icache_all): New function.
+	(flush_cache_4096): Changed the ifdef condition and I-cache handling.
+	(flush_cache_all, flush_cache_range): New implementation using
+	flush_icache_all and flush_cache_4096_all.
+
+	* arch/sh/mm/clear_page.S (__flush_cache_4096_all): New function.
+
+2002-03-28  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* arch/sh/kernel/process.c (cpu_idle): Bug fix.  Don't exit loop
+	when hlt_counter != 0.
+
+	* include/asm-sh/uaccess.h (strnlen_user, strlen_user): New inline
+	implementation.
+	(__clear_user): Make it external function.
+
+	* arch/sh/mm/copy_page.S (__copy_user_page): Moved from
+	__copy_user_page-sh4.S.
+	* arch/sh/mm/__copy_user_page-sh4.S: Removed.
+
+	* arch/sh/mm/clear_page.S (__clear_user, __flush_cache_4096): New
+	function.
+	(__clear_user_page): Moved from __clear_user_page-sh4.S.
+	* arch/sh/mm/__clear_user_page-sh4.S: Removed.
+
+	* arch/sh/mm/cache-sh4.c (flush_cache_4096): New function.
+	(flush_dcache_page): Removed __flush_dcache_page and merged.
+	(__flush_icache_page, flush_cache_mm, flush_cache_range): Revert the
+	change of 2002-02-27.
+	(__flush_cache_page): New function.
+	(flush_cache_page): Use __flush_cache_page.
+
+	* arch/sh/kernel/setup.c (setup_arch): Bug fix for FPU
+	initialization.
+
+	* include/asm-sh/mmu_context.h (switch_mm): Remove setting/resetting
+	of mm->cpu_vm_mask.  It's for SMP implementation.
+	(get_new_mmu_context): Removed.
+	(get_mmu_context): Merved with get_new_mmu_context.
+
+	* include/asm-sh/hw_irq.h (sh_do_profile): Removed from here.
+	* arch/sh/kernel/time.c (sh_do_profile): But implemented here.
+
+	* include/asm-sh/ptrace.h (struct pt_regs): Renamed syscall_nr to
+	tra.
+
+	* arch/sh/kernel/process.c (dump_fpu, __switch_to, copy_thread):
+	Don't need to protect from interrupt.
+	(__switch_to, copy_thread): Don't check if it's init_task or not.
+
+	* arch/sh/kernel/signal.c (do_signal): Don't set regs[0].
+	Use tra (was: syscall_nr).
+	(restore_sigcontext): Use tra.
+	(handle_signal): Likewise.
+	(save_sigcontext_fpu): 
+	(save_sigcontext_fpu): Use __put_user (was: __copy_to_user).
+	Don't need to protect from interrupt.
+
+	* arch/sh/kernel/entry.S (COMPAT_OLD_SYSCALL_ABI): Removed.
+	(old_abi_system_call): Removed.
+	(OFF_TRA): Renamed from SYSCALL_NR.
+	(system_call): Use OFF_TRA and the value is now tra (was: encoded
+	value).
+
+2002-03-22  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* arch/sh/mm/cache-sh4.c (flush_cache_range): Revert the change
+	of 2002-03-20.  It's for 2.5.
+
+2002-03-20  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* fs/nfs/inode.c (nfs_read_inode): Don't set inode->i_rdev here.
+	(nfs_fill_inode): But set it here, instead.
+	(nfs_find_actor): Reusing cached inode, clear ->i_mode.
+
+2002-03-20  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* fs/nfs/inode.c: New file.
+
+2002-03-20  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* arch/sh/mm/cache-sh4.c (flush_cache_range): New auto variable mm.
+
+2002-02-28  Paul Mundt  <lethal@chaoticdreams.org>
+
+	* arch/sh/kernel/traps.c (dump_stack): Removed.
+	(show_task): Added.
+	(show_trace_task): Hand off actual stack pointer to show_task()
+	to do a real backtrace.
+
+2002-02-28  M. R. Brown  <mrbrown@0xd6.org>
+
+	* Makefile: Added -sh to EXTRAVERSION.
+
+2002-02-27  Paul Mundt  <lethal@chaoticdreams.org>
+
+	* arch/sh/mm/cache-sh4.c (__flush_icache_page): Added back in.
+	(flush_cache_range): Rewritten entirely.
+	(flush_cache_mm): Only flush caches on a valid mm context.
+
+2002-02-27  Jeremy Siegel  <jsiegel@mvista.com>
+	* arch/sh/kernel/sh_ksyms.c: (memscan, __down_trylock): Added
+	* include/asm-sh/system.h: make save_flags asm code volatile
+	
+2002-02-27  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* Updated missing Documentation/Configure.help update.
+
+2002-02-26  NIIBE Yutaka  <gniibe@m17n.org>
+
+	Updated to 2.4.18
+	* Makefile: Version 2.4.18.  Merged.
+	* AGAINST-2.4.18: New file.
+	* AGAINST-2.4.17: Removed.
+	* drivers/Makefile, drivers/block/rd.c, drivers/char/Makefile,
+	drivers/net/8139too.c, drivers/net/Config.in, drivers/pci/pci.ids,
+	kernel/ptrace.c, mm/memory.c: Merge the changes.
+
+	* include/asm-sh/pci.h (DECLARE_PCI_UNMAP_ADDR,
+	DECLARE_PCI_UNMAP_LEN, pci_unmap_addr, pci_unmap_addr_set,
+	pci_unmap_len, pci_unmap_len_set): New API added.
+
+	* drivers/char/sh-sci.c (sci_ioctl TIOCGSERIAL): set return code "rc".
+
+	* arch/sh/vmlinux.lds.S (.text.lock): Removed.
+	* arch/sh/kernel/sh_ksyms.c (simple_strtol): Removed.
+
+	* include/asm-sh/unistd.h (__NR_security, __NR_gettid,
+	__NR_readahead): Added.
+
+	* arch/sh/kernel/entry.S (sys_gettid, sys_readahead): Added.
+
+2002-02-26  NIIBE Yutaka  <gniibe@m17n.org>
+
+	* arch/sh/kernel/io_se.c (delay): More delay needed for
+	SolutionEngine SH7709A.
+
+2002-01-25  NIIBE Yutaka  <gniibe@m17n.org>
+
+	Backport from 2.5.  FPU change.
+
+    2001-12-28  NIIBE Yutaka  <gniibe@m17n.org>
+
+	(do_fpu_error): Handle denormalized floating point number.
+	Remove un-needed grab_fpu.
+
+	* arch/sh/kernel/head.S (_stext): Don't initialize FPU, as FPU is
+	not used by kernel.
+	(SR): Initial value with FD=1 (no FPU use).
+
+	* include/asm-sh/processor.h (unlazy_fpu): Don't need to grab_fpu.
+	(clear_fpu): Call release_fpu.
+
+	* arch/sh/kernel/entry.S (PF_USEDFPU, __PF_USEDFPU): Removed.
+	(restore_all, handle_exception): Simplified.
+	(__fpu_prepare_fd, __init_task_flags): Removed
+
+	* arch/sh/kernel/fpu.c (enable_fpu_in_danger): Removed.
+	(fpu_prepare_fd): Removed.
+
+    2001-12-28  Kazumoto Kojima  <kkojima@rr.iij4u.or.jp>
+
+	* include/asm-sh/processor.h (FPSCR_ENABLE_MASK, FPSCR_FLAG_MASK):
+	New macros.
+
+	* arch/sh/kernel/fpu.c (denormal_to_double, ieee_fpe_handler): 
+	New functions.
+
+2002-01-24  NIIBE Yutaka  <gniibe@m17n.org>
+
+	Updated to 2.4.17 mainline.
+	* Makefile: Version 2.4.17.
+	* Documentation/Configure.help, Documentation/cachetlb.txt,
+	 drivers/block/rd.c, drivers/net/8139too.c, include/linux/highmem.h,
+	 kernel/ptrace.c, mm/memory.c: Include changes from mainline (2.4.17).
+
+	* Documentation/Configure.help: Added descriptions of SH-2000,
+	  SH7751, and ST40STB1.
+	* TODO: Added note on include/asm-sh/pgalloc.h.
+
+	* AGAINST-2.4.17: New file.
+	* AGAINST-2.4.16: Removed.
+
+2002-01-19  Paul Mundt  <lethal@chaoticdreams.org>
+
+	* include/net/inet_ecn.h: Addin #ifdef sanity that was lost in
+	 2.4.14. This allows us to build with CONFIG_INET turned off.
+
+Local Variables:
+mode: change-log
+left-margin: 8
+fill-column: 76
+version-control: never
+End:

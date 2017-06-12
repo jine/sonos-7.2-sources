@@ -1,0 +1,52 @@
+Index: main.c
+===================================================================
+--- main.c	(revision 32622)
++++ main.c	(working copy)
+@@ -170,10 +170,12 @@
+ {
+ 	unsigned long ticks, loopbit;
+ 	int lps_precision = LPS_PREC;
++    unsigned int nCountSuccess = 0;
++    unsigned int nCountFailures = 0;
+ 
+ 	loops_per_jiffy = (1<<12);
+ 
+-	printk("Calibrating delay loop... ");
++    printk("Calibrating delay loop... ");
+ 	while (loops_per_jiffy <<= 1) {
+ 		/* wait for "start of" clock tick */
+ 		ticks = jiffies;
+@@ -183,8 +185,17 @@
+ 		ticks = jiffies;
+ 		__delay(loops_per_jiffy);
+ 		ticks = jiffies - ticks;
+-		if (ticks)
+-			break;
++		if (ticks) {
++            /* Force this to overrun a jiffy 3 times to prevent a false
++               positive. */
++            if (++nCountSuccess == 3)
++                break;
++            loops_per_jiffy >>= 1;
++        } else {
++            if (nCountSuccess)
++                nCountFailures++;
++            nCountSuccess = 0;
++        }
+ 	}
+ 
+ /* Do a binary approximation to get loops_per_jiffy set to equal one clock
+@@ -202,9 +213,11 @@
+ 	}
+ 
+ /* Round the value and print it */	
+-	printk("%lu.%02lu BogoMIPS\n",
++	printk("%lu.%02lu BogoMIPS (0x%lx lpj)\n",
+ 		loops_per_jiffy/(500000/HZ),
+-		(loops_per_jiffy/(5000/HZ)) % 100);
++           (loops_per_jiffy/(5000/HZ)) % 100, loops_per_jiffy);
++    if (nCountFailures)
++        printk("Had to reset %u times.\n", nCountFailures);
+ }
+ 
+ static int __init debug_kernel(char *str)

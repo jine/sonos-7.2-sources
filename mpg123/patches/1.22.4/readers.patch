@@ -1,0 +1,243 @@
+--- a/src/libmpg123/readers.c	2015-08-11 22:33:47.000000000 -0700
++++ b/src/libmpg123/readers.c	2015-11-28 11:36:40.832001214 -0800
+@@ -197,6 +197,7 @@
+ #define icy_fullread NULL
+ #endif /* NO_ICY */
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ /* stream based operation */
+ static ssize_t plain_fullread(mpg123_handle *fr,unsigned char *buf, ssize_t count)
+ {
+@@ -222,6 +223,7 @@
+ 	}
+ 	return cnt;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ static off_t stream_lseek(mpg123_handle *fr, off_t pos, int whence)
+ {
+@@ -253,6 +255,7 @@
+ 	}
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ static int stream_seek_frame(mpg123_handle *fr, off_t newframe)
+ {
+ 	debug2("seek_frame to %"OFF_P" (from %"OFF_P")", (off_p)newframe, (off_p)fr->num);
+@@ -297,6 +300,7 @@
+ 		return READER_ERROR; /* invalid, no seek happened */
+ 	}
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ /* return FALSE on error, TRUE on success, READER_MORE on occasion */
+ static int generic_head_read(mpg123_handle *fr,unsigned long *newhead)
+@@ -328,6 +332,7 @@
+ 	return TRUE;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ /* returns reached position... negative ones are bad... */
+ static off_t stream_skip_bytes(mpg123_handle *fr,off_t len)
+ {
+@@ -381,7 +386,7 @@
+ 
+ 	return 0;
+ }
+-
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ /* returns size on success... */
+ static int generic_read_frame_body(mpg123_handle *fr,unsigned char *buf, int size)
+@@ -807,6 +812,7 @@
+ 	fr->rdat.filepos = fr->rdat.buffer.fileoff + fr->rdat.buffer.pos;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ off_t feed_set_pos(mpg123_handle *fr, off_t pos)
+ {
+ 	struct bufferchain *bc = &fr->rdat.buffer;
+@@ -869,6 +875,7 @@
+ 	if(gotcount != count){ if(NOQUIET) error("gotcount != count"); return READER_ERROR; }
+ 	else return gotcount;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ #else
+ int feed_more(mpg123_handle *fr, const unsigned char *in, long count)
+ {
+@@ -908,6 +915,20 @@
+ static struct reader readers[] =
+ {
+ 	{ /* READER_STREAM */
++#ifdef SONOS_MPG123_OPTIMIZED
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL
++#else
+ 		default_init,
+ 		stream_close,
+ 		plain_fullread,
+@@ -920,8 +941,23 @@
+ 		generic_tell,
+ 		stream_rewind,
+ 		NULL
++#endif // SONOS_MPG123_OPTIMIZED
+ 	} ,
+ 	{ /* READER_ICY_STREAM */
++#ifdef SONOS_MPG123_OPTIMIZED
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL
++#else
+ 		default_init,
+ 		stream_close,
+ 		icy_fullread,
+@@ -934,6 +970,7 @@
+ 		generic_tell,
+ 		stream_rewind,
+ 		NULL
++#endif // SONOS_MPG123_OPTIMIZED
+ 	},
+ #ifdef NO_FEEDER
+ #define feed_init NULL
+@@ -959,6 +996,20 @@
+ 		buffered_forget
+ 	},
+ 	{ /* READER_BUF_STREAM */
++#ifdef SONOS_MPG123_OPTIMIZED
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL
++#else
+ 		default_init,
+ 		stream_close,
+ 		buffered_fullread,
+@@ -971,8 +1022,23 @@
+ 		generic_tell,
+ 		stream_rewind,
+ 		buffered_forget
++#endif // SONOS_MPG123_OPTIMIZED
+ 	} ,
+ 	{ /* READER_BUF_ICY_STREAM */
++#ifdef SONOS_MPG123_OPTIMIZED
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL,
++                NULL
++#else
+ 		default_init,
+ 		stream_close,
+ 		buffered_fullread,
+@@ -985,6 +1051,7 @@
+ 		generic_tell,
+ 		stream_rewind,
+ 		buffered_forget
++#endif // SONOS_MPG123_OPTIMIZED
+ 	},
+ #ifdef READ_SYSTEM
+ 	,{
+@@ -1006,6 +1073,20 @@
+ 
+ static struct reader bad_reader =
+ {
++#ifdef SONOS_MPG123_OPTIMIZED
++        NULL,
++        NULL,
++        NULL,
++        NULL,
++        NULL,
++        NULL,
++        NULL,
++        NULL,
++        NULL,
++        NULL,
++        NULL,
++        NULL
++#else
+ 	bad_init,
+ 	bad_close,
+ 	bad_fullread,
+@@ -1018,8 +1099,10 @@
+ 	bad_tell,
+ 	bad_rewind,
+ 	NULL
++#endif // SONOS_MPG123_OPTIMIZED
+ };
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ static int default_init(mpg123_handle *fr)
+ {
+ #ifdef TIMEOUT_READ
+@@ -1097,7 +1180,7 @@
+ 	}
+ 	return 0;
+ }
+-
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ void open_bad(mpg123_handle *mh)
+ {
+@@ -1139,6 +1222,7 @@
+ #endif /* NO_FEEDER */
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ /* Final code common to open_stream and open_stream_handle. */
+ static int open_finish(mpg123_handle *fr)
+ {
+@@ -1204,6 +1288,7 @@
+ 
+ 	return open_finish(fr);
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ /* Wrappers for actual reading/seeking... I'm full of wrappers here. */
+ static off_t io_seek(struct reader_data *rdat, off_t offset, int whence)
+@@ -1220,6 +1305,7 @@
+ 	return rdat->lseek(rdat->filept, offset, whence);
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ static ssize_t io_read(struct reader_data *rdat, void *buf, size_t count)
+ {
+ 	if(rdat->flags & READER_HANDLEIO)
+@@ -1233,3 +1319,4 @@
+ 	else
+ 	return rdat->read(rdat->filept, buf, count);
+ }
++#endif // SONOS_MPG123_OPTIMIZED

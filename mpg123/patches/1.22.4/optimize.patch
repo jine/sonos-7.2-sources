@@ -1,0 +1,15 @@
+--- a/src/libmpg123/optimize.c	2015-08-11 22:33:47.000000000 -0700
++++ b/src/libmpg123/optimize.c	2015-11-28 11:08:00.296000379 -0800
+@@ -1160,6 +1160,7 @@
+ #endif /* ndef OPT_MULTI */
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ const char* attribute_align_arg mpg123_current_decoder(mpg123_handle *mh)
+ {
+ 	if(mh == NULL) return NULL;
+@@ -1176,3 +1177,4 @@
+ 	return mpg123_decoder_list;
+ #endif
+ }
++#endif // SONOS_MPG123_OPTIMIZED

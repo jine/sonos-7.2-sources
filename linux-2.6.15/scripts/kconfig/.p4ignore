@@ -1,0 +1,7 @@
+.*.cmd
+*.mod.c
+lex.*.c
+*.tab.c
+*.hash.c
+conf
+

@@ -1,0 +1,406 @@
+---------------------
+PatchSet 4054 
+Date: 2004/04/07 15:19:26
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Update changelog for release
+
+Members: 
+	Changelog:1.290->1.291 
+
+---------------------
+PatchSet 4055 
+Date: 2004/04/07 15:19:41
+Author: andersen
+Branch: HEAD
+Tag: busybox_1_00_pre9 
+Log:
+Update for release
+
+Members: 
+	docs/busybox.net/news.html:1.12->1.13 
+
+---------------------
+PatchSet 4056 
+Date: 2004/04/07 16:07:55
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Document insmod -o
+
+Members: 
+	include/usage.h:1.201->1.202 
+
+---------------------
+PatchSet 4057 
+Date: 2004/04/07 17:59:59
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Add the Tritton Technologies NAS120
+
+Members: 
+	docs/busybox.net/shame.html:1.13->1.14 
+
+---------------------
+PatchSet 4058 
+Date: 2004/04/07 18:59:04
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Vladimir N. Oleynik writes:
+
+Hi.
+
+Last changes (rev 1.12) to recursive_actions() by Christian Grigis
+have problem.
+Test for demonstrate:
+
+$ mkdir aaa bbb ccc
+$ su
+# chown root bbb
+# chmod 700 bbb
+# exit
+$ busybox chmod 777 -R .
+./bbb: Permision denied
+
+But "./ccc" mode not changed. Previous variant works fine,
+errors skiped and continued recursion.
+
+
+--w
+vodz
+
+Members: 
+	libbb/recursive_action.c:1.12->1.13 
+
+---------------------
+PatchSet 4059 
+Date: 2004/04/08 11:27:11
+Author: bug1
+Branch: HEAD
+Tag: (none) 
+Log:
+Fix ftp resume
+Terminate returned message at <CRLF> so strtoul returns without error
+
+Members: 
+	networking/wget.c:1.72->1.73 
+
+---------------------
+PatchSet 4060 
+Date: 2004/04/09 07:59:05
+Author: bug1
+Branch: HEAD
+Tag: (none) 
+Log:
+Add a comment explaining why we have to check for an extra \n
+
+Members: 
+	archival/libunarchive/get_header_ar.c:1.9->1.10 
+
+---------------------
+PatchSet 4061 
+Date: 2004/04/12 03:22:39
+Author: bug1
+Branch: HEAD
+Tag: (none) 
+Log:
+Fix up conditional compile of files needed by ip applets
+
+Members: 
+	networking/libiproute/Makefile.in:1.5->1.6 
+
+---------------------
+PatchSet 4062 
+Date: 2004/04/12 03:35:44
+Author: bug1
+Branch: HEAD
+Tag: (none) 
+Log:
+Fix compile error if CONFIG_FEATURE_IP_ADDR isnt enabled
+
+Members: 
+	networking/ip.c:1.3->1.4 
+
+---------------------
+PatchSet 4063 
+Date: 2004/04/12 16:02:53
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+make mount ignore -n when CONFIG_FEATURE_MTAB_SUPPORT is disabled
+
+Members: 
+	util-linux/mount.c:1.116->1.117 
+
+---------------------
+PatchSet 4064 
+Date: 2004/04/12 16:03:51
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Fix spelling.  "sort of" is two words.
+
+Members: 
+	README:1.33->1.34 
+	shell/cmdedit.c:1.90->1.91 
+
+---------------------
+PatchSet 4065 
+Date: 2004/04/12 16:05:10
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+"Mac OS X" is how it is written on the Apple website
+
+Members: 
+	README:1.34->1.35 
+
+---------------------
+PatchSet 4066 
+Date: 2004/04/12 16:12:06
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Patch from Rob Landley to fix sed documentation.
+The -i option was not documented, and in genereal
+the formatting was a bit ugly.
+
+Members: 
+	include/usage.h:1.202->1.203 
+
+---------------------
+PatchSet 4067 
+Date: 2004/04/12 16:23:19
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Add an extra link
+
+Members: 
+	docs/busybox.net/shame.html:1.14->1.15 
+
+---------------------
+PatchSet 4068 
+Date: 2004/04/12 18:59:23
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Jamie Guinan writes:
+
+It looks like latest uClibc defines ARCH_HAS_MMU, but a few busybox files
+test UCLIBC_HAS_MMU, resulting in vfork() getting called instead of
+fork(), etc.
+
+Patch below.   Only tested for lash.
+
+Cheers,
+-Jamie
+
+Members: 
+	init/init.c:1.199->1.200 
+	shell/hush.c:1.66->1.67 
+	shell/lash.c:1.159->1.160 
+
+---------------------
+PatchSet 4069 
+Date: 2004/04/12 20:12:13
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Peter Milne writes:
+
+Just upgraded from 0.6 to 1.00-pre8
+
+Dot command handling handled args correctly (same as bash) in 0.60,
+but failed in 1.00:
+
+I fixed this by reverting the dotcmd function back to previous 0.60
+instantiation,
+please consider using the older version.
+
+Thanks
+
+
+Peter
+
+Members: 
+	shell/ash.c:1.95->1.96 
+
+---------------------
+PatchSet 4070 
+Date: 2004/04/12 20:17:13
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+As reported by Quy Tonthat, init has problems with inittab's that
+contain only actions sysinit/wait/once. It does not clean up zombies
+in that case.
+
+Members: 
+	init/init.c:1.200->1.201 
+
+---------------------
+PatchSet 4071 
+Date: 2004/04/12 20:21:54
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Silly me
+
+Members: 
+	init/init.c:1.201->1.202 
+
+---------------------
+PatchSet 4072 
+Date: 2004/04/12 21:57:17
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Eric Spakman noticed that ifdown' will attempt to run 'ifconfig'
+even if built with CONFIG_FEATURE_IFUPDOWN_IP when shutting down
+a dhcp connection.
+
+Members: 
+	networking/ifupdown.c:1.36->1.37 
+
+---------------------
+PatchSet 4073 
+Date: 2004/04/12 22:41:29
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Wolfgang Denk writes:
+
+He,
+
+there is a bug in HUSH's handling of "if" / "elif" commands:
+
+        $  if true
+        > then
+        > echo 1
+        > elif
+        > true
+        > then
+        > echo 2
+        > elif
+        > true
+        > then
+        > echo 3
+        > else
+        > echo 4
+        > fi
+        1
+        2
+        3
+        $
+
+The same bug exists in all versions of HUSH from BB v0.60.x up to and
+including v1.00-pre9. The attached patch fixes this:
+
+        $ if true
+        > then
+        > echo 1
+        > elif
+        > true
+        > then
+        > echo 2
+        > elif
+        > true
+        > then
+        > echo 3
+        > else
+        > echo 4
+        > fi
+        1
+        $
+
+
+
+Best regards,
+
+Wolfgang Denk
+
+Members: 
+	shell/hush.c:1.67->1.68 
+
+---------------------
+PatchSet 4074 
+Date: 2004/04/12 23:49:06
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Sigh.  The patch from David Anders (prpplague) broke standard
+securetty files since the /dev was not stripped.
+
+Members: 
+	loginutils/login.c:1.15->1.16 
+
+---------------------
+PatchSet 4075 
+Date: 2004/04/13 17:31:41
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Put the glibc nss junk back at the end
+
+Members: 
+	docs/busybox_footer.pod:1.15->1.16 
+	docs/busybox_header.pod:1.16->1.17 
+
+---------------------
+PatchSet 4076 
+Date: 2004/04/13 19:28:46
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Fix several problems with start-stop-daemon, add -m support
+
+Members: 
+	debianutils/start_stop_daemon.c:1.13->1.14 
+	include/usage.h:1.203->1.204 
+
+---------------------
+PatchSet 4077 
+Date: 2004/04/13 20:25:57
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+slightly clean the whacked out formatting
+
+Members: 
+	networking/ipcalc.c:1.8->1.9 
+
+---------------------
+PatchSet 4078 
+Date: 2004/04/13 20:27:20
+Author: andersen
+Branch: HEAD
+Tag: (none) 
+Log:
+Fix incorrect ipcalc usage text
+
+Members: 
+	include/usage.h:1.204->1.205 
+

@@ -1,0 +1,75 @@
+# The 3.10 kernel has a new uapi include path for kernel-user interfaces which
+# (annoyingly) must be in a particular order in the include search path.
+# Ideally we should be checking kernel version here and NOT arch, but there's no
+# consistent way yet to determine the kernel version in makefiles so this
+# is a (temporary) compromise. - Ethan
+ifneq ($(filter $(ARCH),solbase encore royale paramount),)
+KERNEL_HEADERS=-I@KERNEL_HEADERS@/include -I@KERNEL_HEADERS@/source/include/uapi -I@KERNEL_HEADERS@/source/include -I@KERNEL_HEADERS@/source/arch/@ARCH_CPU@/include
+else ifneq ($(filter $(ARCH),mips sh4 ppc connectx mips24k fenway limelight fillmore),)
+KERNEL_HEADERS=-I@KERNEL_HEADERS@/include -I@KERNEL_HEADERS@/source/include -I@KERNEL_HEADERS@/source/arch/@ARCH_CPU@/include
+else
+$(error undefined platform $(ARCH))
+endif
+
+AR=ar
+RANLIB=@RANLIB@
+
+CC=@CC@
+CFLAGS = -Wall -g $(KERNEL_HEADERS)
+
+# SH4 and PPC have to have SONOS_LINUX_ defines or the linux headers throw an error
+ifeq ($(ARCH),sh4)
+CFLAGS += -D__SONOS_LINUX_SH4__
+endif
+ifneq ($(filter $(ARCH),ppc connectx),)
+CFLAGS += -D__SONOS_LINUX_PPC__
+endif
+
+CFLAGS += -DCONFIG_SONOS
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+includedir=@includedir@
+libdir=@libdir@
+
+ifndef HAVE_IF_INDEX
+COMPAT_SOURCES=  \
+	libbridge_compat.c 
+else
+COMPAT_SOURCES=  
+endif
+
+libbridge_SOURCES= \
+	$(COMPAT_SOURCES) \
+	libbridge_devif.c \
+	libbridge_if.c \
+	libbridge_init.c \
+	libbridge_misc.c 
+
+libbridge_OBJECTS=$(libbridge_SOURCES:.c=.o)
+
+all:	libbridge.a
+
+install: libbridge.a
+	mkdir -p $(DESTDIR)$(includedir)
+	install -m 644 libbridge.h $(DESTDIR)$(includedir)
+	mkdir -p $(DESTDIR)$(libdir)
+	install -m 644 libbridge.a $(DESTDIR)$(libdir)
+
+
+clean:
+	rcsclean *
+	rm -f *~
+	rm -f *.o
+	rm -f libbridge.a
+
+libbridge.a:	$(libbridge_OBJECTS)
+	$(AR) rcs $@ $(libbridge_OBJECTS)
+	$(RANLIB) $@
+
+%.o: %.c libbridge.h libbridge_private.h
+	$(CC) $(CONFIG_SONOS_DIAGS_COMPILE_FLAG) $(CFLAGS) $(INCLUDE) -c $<
+
+libbridge_compat.o:	libbridge_compat.c if_index.c
+	$(CC) $(CONFIG_SONOS_DIAGS_COMPILE_FLAG) $(CFLAGS) -c libbridge_compat.c
+

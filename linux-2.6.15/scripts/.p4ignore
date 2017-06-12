@@ -1,0 +1,6 @@
+.*.cmd
+*.mod.c
+.tmp_versions
+*.ko
+kallsyms
+

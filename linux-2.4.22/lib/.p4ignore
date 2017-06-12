@@ -1,0 +1,5 @@
+.*
+crc32table.h
+lib.a
+gen_crc32table
+

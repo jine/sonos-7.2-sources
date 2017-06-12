@@ -1,0 +1,8 @@
+autoconf.h
+version.h
+modversions.h
+compile.h
+modules
+autoconf_sh.h
+autoconf_ppc.h
+

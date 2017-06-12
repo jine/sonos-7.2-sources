@@ -1,0 +1,80 @@
+--- a/src/libmpg123/frame.c	2015-08-11 22:33:47.000000000 -0700
++++ b/src/libmpg123/frame.c	2015-11-28 09:21:56.237022820 -0800
+@@ -151,6 +151,7 @@
+ }
+ #endif
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ mpg123_pars attribute_align_arg *mpg123_new_pars(int *error)
+ {
+ 	mpg123_pars *mp = malloc(sizeof(struct mpg123_pars_struct));
+@@ -163,6 +164,7 @@
+ {
+ 	if(mp != NULL) free(mp);
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ int attribute_align_arg mpg123_reset_eq(mpg123_handle *mh)
+ {
+@@ -210,6 +212,7 @@
+ 	return MPG123_OK;
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_replace_buffer(mpg123_handle *mh, unsigned char *data, size_t size)
+ {
+ 	debug2("replace buffer with %p size %"SIZE_P, data, (size_p)size);
+@@ -228,6 +231,7 @@
+ 	mh->buffer.fill = 0;
+ 	return MPG123_OK;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ #ifdef FRAME_INDEX
+ int frame_index_setup(mpg123_handle *fr)
+@@ -609,6 +613,7 @@
+ #endif
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_framedata(mpg123_handle *mh, unsigned long *header, unsigned char **bodydata, size_t *bodybytes)
+ {
+ 	if(mh == NULL)     return MPG123_BAD_HANDLE;
+@@ -721,6 +726,7 @@
+ 	debug2("index: 0x%lx for frame %li", (unsigned long)gopos, (long) *get_frame);
+ 	return gopos;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ off_t frame_ins2outs(mpg123_handle *fr, off_t ins)
+ {	
+@@ -933,6 +939,7 @@
+ #endif
+ }
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_volume_change(mpg123_handle *mh, double change)
+ {
+ 	if(mh == NULL) return MPG123_ERR;
+@@ -949,6 +956,7 @@
+ 	do_rva(mh);
+ 	return MPG123_OK;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ static int get_rva(mpg123_handle *fr, double *peak, double *gain)
+ {
+@@ -1003,7 +1011,7 @@
+ 	}
+ }
+ 
+-
++#ifndef SONOS_MPG123_OPTIMIZED
+ int attribute_align_arg mpg123_getvolume(mpg123_handle *mh, double *base, double *really, double *rva_db)
+ {
+ 	if(mh == NULL) return MPG123_ERR;
+@@ -1019,3 +1027,4 @@
+ 
+ 	return mh->input_offset;
+ }
++#endif // SONOS_MPG123_OPTIMIZED

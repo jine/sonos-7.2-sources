@@ -1,0 +1,4 @@
+libdm is from LVM2.2.02.98 open source. This is simple revision of it. To make
+it comparable to the original code, the code structure is kept the same.
+
+cryptsetup is from cryptsetup-1.6.1. It is simplified to support LUKS only.

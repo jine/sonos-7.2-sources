@@ -1,0 +1,18 @@
+--- a/src/libmpg123/compat.c	2015-08-11 22:33:47.000000000 -0700
++++ b/src/libmpg123/compat.c	2015-11-28 09:11:51.369022527 -0800
+@@ -56,6 +56,7 @@
+ }
+ #endif
+ 
++#ifndef SONOS_MPG123_OPTIMIZED
+ int compat_open(const char *filename, int flags)
+ {
+ 	int ret;
+@@ -85,6 +86,7 @@
+ 
+ 	return ret;
+ }
++#endif // SONOS_MPG123_OPTIMIZED
+ 
+ int compat_close(int infd)
+ {

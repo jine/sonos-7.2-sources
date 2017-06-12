@@ -1,0 +1,23 @@
+--- a/src/libmpg123/mpg123lib_intern.h	2015-08-11 22:33:46.000000000 -0700
++++ b/src/libmpg123/mpg123lib_intern.h	2015-11-30 16:29:23.315885247 -0800
+@@ -287,12 +287,20 @@
+ #include "frame.h"
+ 
+ /* fr is a mpg123_handle* by convention here... */
++#ifdef SONOS_MPG123_OPTIMIZED
++#define NOQUIET  (0)
++#else
+ #define NOQUIET  (!(fr->p.flags & MPG123_QUIET))
++#endif
+ #define VERBOSE  (NOQUIET && fr->p.verbose)
+ #define VERBOSE2 (NOQUIET && fr->p.verbose > 1)
+ #define VERBOSE3 (NOQUIET && fr->p.verbose > 2)
+ #define VERBOSE4 (NOQUIET && fr->p.verbose > 3)
++#ifdef SONOS_MPG123_OPTIMIZED
++#define PVERB(mp, level) (0)
++#else
+ #define PVERB(mp, level) (!((mp)->flags & MPG123_QUIET) && (mp)->verbose >= (level))
++#endif
+ 
+ int decode_update(mpg123_handle *mh);
+ /* residing in format.c  */

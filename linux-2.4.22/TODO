@@ -1,0 +1,87 @@
+* include/asm-sh/pgalloc.h
+  Use slab for pgd_alloc
+
+* include/asm-sh/hw_irq.h
+  Kernel profiling
+
+* arch/sh/kernel/setup.c (setup_arch): 
+	request_resource
+
+* irq
+  init_irq_proc
+
+* Detecting CPU
+
+	CPU core
+	cache size
+	hard fpu or not
+	(has DSP?)
+
+    setup.c:
+	get_cpuinfo
+    cache.c:
+	detect_cpu_and_cache_system
+
+* string functions
+
+* checksum
+  SH-4 tuned version?
+  csum_ipv6_magic is way bad implementation, consider pipeline!
+
+-------------------------------------------------
+Status of the merge with Kaz' Implementation.
+
+Mostly done.  Target specific drivers remain.
+(keyboard, floppy, PS/2 mouse driver)
+
+* Header files:
+
+DONE:
+a.out.h		addrspace.h	atomic.h	bitops.h	checksum.h
+bugs.h		byteorder.h	cache.h		delay.h		elf.h
+errno.h		fcntl.h		hardirq.h	init.h		ioctl.h
+ipc.h		irq.h		namei.h		smp.h		timex.h
+mman.h		mmu_context.h	page.h		param.h		poll.h
+posix_types.h	resource.h	siginfo.h	signal.h	socket.h
+sockios.h	smplock.h	softirq.h	stat.h		statfs.h
+termbits.h	termios.h	types.h		ucontext.h	unaligned.h
+spinlock.h	unistd.h	semaphore.h	semaphore-helper.h
+system.h	processor.h	ioctls.h	user.h		sigcontext.h
+ptrace.h	io.h		current.h	mc146818rtc.h	linux_logo.h
+pci.h		serial.h
+
+NOT MERGED:
+asm.h
+bootinfo.h
+cachectl.h
+fp.h
+gdb-stub.h
+inst.h
+reboot.h
+reg.h
+regdef.h
+segment.h
+shcache.h
+shiomap.h
+shmparam.h
+shregs.h
+stackframe.h
+offset.h
+
+WORK SHOULD BE DONE:
+dma.h
+keyboard.h
+md.h
+floppy.h
+pgtable.h
+string.h
+uaccess.h
+
+-------------------------------------------------
+
+DONE:
+
+* reboot
+   SR.BL=1 and address error
+
+* Support zImage with big-endian.

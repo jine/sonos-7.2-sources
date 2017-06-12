@@ -1,0 +1,4 @@
+.*.cmd
+asm-offsets.s
+vmlinux.lds
+

@@ -1,0 +1,15 @@
+menu "Codec Select"
+
+config CODEC_AC97_ZY
+	bool "AC97 Codec for Zylonite Platform"
+	depends on SND_ZYLONITE_CORE
+	help
+	  Say Y to enable the AC97 Codec for Zylonite support.
+
+config CODEC_MICCO_LT
+	bool "Micco Codec for Littleton Platform"
+	depends on SND_LITTLETON_CORE && PXA3xx_MICCO
+	help
+	  Say Y to enable the Micco Codec for Littleton support.
+
+endmenu

@@ -1,0 +1,11 @@
+# above this line are upstream patches (mostly vulnerability fixes)
+# below this line are our own patches
+libmpg123.patch
+format.patch
+readers.patch
+parse.patch
+frame.patch
+optimize.patch
+compat.patch
+index.patch
+mpg123lib_intern.patch

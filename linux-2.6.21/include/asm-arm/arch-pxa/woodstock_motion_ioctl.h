@@ -1,0 +1,61 @@
+#ifndef _WOODSTOCK_MOTION_IOCTL_H_
+#define _WOODSTOCK_MOTION_IOCTL_H_
+
+// /dev/mma7455l_misc
+#define MOTION_MISC_IOCTL_GET_X 	_IOR('d',0x01,int)
+#define MOTION_MISC_IOCTL_GET_Y 	_IOR('d',0x02,int)
+#define MOTION_MISC_IOCTL_GET_Z 	_IOR('d',0x03,int)
+#define MOTION_MISC_IOCTL_SET_G_RANGE   _IO('d',0x04)
+#define MOTION_MISC_IOCTL_SET_MODE	_IO('d',0x05)
+#define MOTION_MISC_IOCTL_GET_X10 	_IOR('d',0x06,int)
+#define MOTION_MISC_IOCTL_GET_Y10 	_IOR('d',0x07,int)
+#define MOTION_MISC_IOCTL_GET_Z10 	_IOR('d',0x08,int)
+#define MOTION_MISC_IOCTL_SET_OFFSET_X	_IO('d',0x09)
+#define MOTION_MISC_IOCTL_SET_OFFSET_Y	_IO('d',0x0A)
+#define MOTION_MISC_IOCTL_SET_OFFSET_Z	_IO('d',0x0B)
+#define MOTION_MISC_IOCTL_GET_MCTL	_IOR('d',0x0C,int)
+#define MOTION_MISC_IOCTL_SET_MCTL	_IO('d',0x0D)
+#define MOTION_MISC_IOCTL_GET_STATUS    _IOR('d',0x0E,int)
+#define MOTION_MISC_IOCTL_GET_OFFSET_X	_IOR('d',0x0F,int)
+#define MOTION_MISC_IOCTL_GET_OFFSET_Y	_IOR('d',0x10,int)
+#define MOTION_MISC_IOCTL_GET_OFFSET_Z	_IOR('d',0x11,int)
+#define MOTION_MISC_IOCTL_DO_CALIBRATE  _IOR('d',0x12,int)
+#define MOTION_MISC_IOCTL_STANDBY       _IOR('d',0x13,int)
+#define MOTION_MISC_IOCTL_DO_SELFTEST   _IOR('d',0x14,int)
+#define MOTION_MISC_IOCTL_CHK_SELFTEST  _IOR('d',0x15,int)
+#define MOTION_MISC_IOCTL_WHICH_ENDS_UP _IOR('d',0x16,int)
+#define MOTION_MISC_IOCTL_INPUTDEV_ENABLE        _IO('d',0x17)
+#define MOTION_MISC_IOCTL_SET_MOTION_THRESH      _IO('d',0x18)
+#define MOTION_MISC_IOCTL_SET_ORIENT_THRESH      _IO('d',0x19)
+#define MOTION_MISC_IOCTL_SET_CLUSTER_LEN_IN_MSECS _IO('d',0x1a)
+#define MOTION_MISC_IOCTL_INPUTDEV_TIMER_CTL     _IO('d',0x1b)
+#define MOTION_MISC_IOCTL_ENABLE_MOTION_EVENTS   _IO('d',0x1c)
+
+// modes
+#define MOTION_MODE_STANDBY     0x0
+#define MOTION_MODE_MEASUREMENT 0x1
+#define MOTION_MODE_LEVEL       0x2
+#define MOTION_MODE_PULSE       0x3
+
+// g-levels
+#define MOTION_G_RANGE_2G       0x1
+#define MOTION_G_RANGE_4G       0x2
+#define MOTION_G_RANGE_8G       0x0
+
+// orientation
+#include <linux/input.h>
+
+typedef enum _wstk_orientation_t 
+{
+    MOTION_ORIENT_UNKNOWN   = KEY_0,
+    MOTION_ORIENT_FRONT     = KEY_1,
+    MOTION_ORIENT_BACK      = KEY_2,
+    MOTION_ORIENT_TOP       = KEY_3,
+    MOTION_ORIENT_BOTTOM    = KEY_4,
+    MOTION_ORIENT_LEFT      = KEY_5,
+    MOTION_ORIENT_RIGHT     = KEY_6
+} wstk_orientation_t;
+
+#define MOTION_SENSED_EVENT   KEY_APOSTROPHE
+
+#endif

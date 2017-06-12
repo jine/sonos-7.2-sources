@@ -1,0 +1,123 @@
+#
+# EPSON LCD/CRT/TV Controllers Configuration
+#
+
+mainmenu_option next_comment
+comment 'EPSON LCD/CRT/TV controller drivers'
+
+bool 'Epson LCD/CRT/TV controller support' CONFIG_FB_EPSON
+if [ "$CONFIG_FB_EPSON" != "n" ]; then
+   define_bool CONFIG_FBCON_EPSON y
+
+   bool '  Epson S1D13504 Support' CONFIG_FB_EPSON_S1D13504
+   if [ "$CONFIG_FB_EPSON_S1D13504" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13504 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+
+   bool '  Epson S1D13505 Support' CONFIG_FB_EPSON_S1D13505
+   if [ "$CONFIG_FB_EPSON_S1D13505" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13505 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+
+   bool '  Epson S1D13506 Support' CONFIG_FB_EPSON_S1D13506
+   if [ "$CONFIG_FB_EPSON_S1D13506" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13506 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+
+   bool '  Epson S1D13704 Support' CONFIG_FB_EPSON_S1D13704
+   if [ "$CONFIG_FB_EPSON_S1D13704" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13704 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+
+   bool '  Epson S1D13705 Support' CONFIG_FB_EPSON_S1D13705
+   if [ "$CONFIG_FB_EPSON_S1D13705" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13705 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+
+   bool '  Epson S1D13706 Support' CONFIG_FB_EPSON_S1D13706
+   if [ "$CONFIG_FB_EPSON_S1D13706" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13706 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+
+   bool '  Epson S1D13806 Support' CONFIG_FB_EPSON_S1D13806
+   if [ "$CONFIG_FB_EPSON_S1D13806" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13806 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+
+   bool '  Epson S1D13A03 Support' CONFIG_FB_EPSON_S1D13A03
+   if [ "$CONFIG_FB_EPSON_S1D13A03" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13A03 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+
+   bool '  Epson S1D13A04 Support' CONFIG_FB_EPSON_S1D13A04
+   if [ "$CONFIG_FB_EPSON_S1D13A04" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13A04 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+
+   bool '  Epson S1D13A05 Support' CONFIG_FB_EPSON_S1D13A05
+   if [ "$CONFIG_FB_EPSON_S1D13A05" = "y" ]; then
+      define_bool CONFIG_FBCON_EPSON_S1D13A05 y
+      if [ "$CONFIG_PCI" != "n" ]; then
+         bool '      Epson PCI Bridge adapter support' CONFIG_FB_EPSON_PCI
+         if [ "$CONFIG_FB_EPSON_PCI" = "y" ]; then
+            define_bool CONFIG_FBCON_EPSON_PCI y
+         fi
+      fi
+   fi
+fi
+
+endmenu

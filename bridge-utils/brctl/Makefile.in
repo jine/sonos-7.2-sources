@@ -1,0 +1,65 @@
+# The 3.10 kernel has a new uapi include path for kernel-user interfaces which
+# (annoyingly) must be in a particular order in the include search path.
+# Ideally we should be checking kernel version here and NOT arch, but there's no
+# consistent way yet to determine the kernel version in makefiles so this
+# is a (temporary) compromise. - Ethan
+ifneq ($(filter $(ARCH),solbase encore royale paramount),)
+KERNEL_HEADERS=-I@KERNEL_HEADERS@/include -I@KERNEL_HEADERS@/source/include/uapi -I@KERNEL_HEADERS@/source/include -I@KERNEL_HEADERS@/source/arch/@ARCH_CPU@/include
+else ifneq ($(filter $(ARCH),mips sh4 ppc connectx mips24k fenway limelight fillmore),)
+KERNEL_HEADERS=-I@KERNEL_HEADERS@/include -I@KERNEL_HEADERS@/source/include -I@KERNEL_HEADERS@/source/arch/@ARCH_CPU@/include
+else
+$(error undefined platform $(ARCH))
+endif
+
+CC=@CC@
+CFLAGS= -Wall -g @CFLAGS@
+INCLUDE=-I../libbridge $(KERNEL_HEADERS)
+LIBS= -L ../libbridge -lbridge
+
+# SH4 and PPC have to have SONOS_LINUX_ defines or the linux headers throw an error
+ifeq ($(ARCH),sh4)
+CFLAGS += -D__SONOS_LINUX_SH4__
+endif
+ifneq ($(filter $(ARCH),ppc connectx),)
+CFLAGS += -D__SONOS_LINUX_PPC__
+endif
+
+CFLAGS += -DCONFIG_SONOS
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+bindir=@bindir@
+sbindir=@sbindir@
+mandir=@mandir@
+
+INSTALL=@INSTALL@
+
+
+common_SOURCES= brctl_cmd.c brctl_disp.c 
+brctl_SOURCES=  brctl.c $(common_SOURCES)
+
+common_OBJECTS= $(common_SOURCES:.c=.o)
+brctl_OBJECTS= $(brctl_SOURCES:.c=.o)
+
+OBJECTS= $(common_OBJECTS) $(brctl_OBJECTS)
+
+PROGRAMS= brctl
+
+
+all:	$(PROGRAMS)
+
+install: $(PROGRAMS)
+	mkdir -p $(DESTDIR)$(sbindir)
+	$(INSTALL) -m 755 $(PROGRAMS) $(DESTDIR)$(sbindir)
+
+brctl:	$(brctl_OBJECTS)
+	$(CC) $(brctl_OBJECTS) $(LIBS) -o brctl
+
+%.o: %.c brctl.h
+	$(CC) $(CONFIG_SONOS_DIAGS_COMPILE_FLAG) $(CFLAGS) $(INCLUDE) -c $< 
+
+clean:
+			rm -f *.o
+			rm -f brctl
+			rm -f core
+
